@@ -24,7 +24,7 @@ const viewerConfig = {
     showCommentPanel: false,
     
     /* Control other UI elements */
-    showDownloadPDF: true,
+    showDownloadPDF: false,
     showPrintPDF: true,
     showLeftHandPanel: true,
     showPageControls: true,
