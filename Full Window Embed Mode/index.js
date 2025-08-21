@@ -9,10 +9,28 @@ then your use, modification, or distribution of it requires the prior
 written permission of Adobe.
 */
 
-/* Control the default view mode */
+/* Control the default view mode and disable annotations */
 const viewerConfig = {
     /* Allowed possible values are "FIT_PAGE", "FIT_WIDTH", "TWO_COLUMN", "TWO_COLUMN_FIT_PAGE" or "". */
     defaultViewMode: "",
+    
+    /* Disable annotation tools */
+    enableAnnotationAPIs: false,
+    
+    /* Hide annotation toolbar */
+    showAnnotationTools: false,
+    
+    /* Additional options to remove annotation features */
+    showCommentPanel: false,
+    
+    /* Control other UI elements */
+    showDownloadPDF: true,
+    showPrintPDF: true,
+    showLeftHandPanel: true,
+    showPageControls: true,
+    
+    /* Disable right-click context menu (optional) */
+    enableRightClickMenu: false
 };
 
 /* Wait for Adobe Acrobat Services PDF Embed API to be ready */
@@ -46,7 +64,7 @@ document.addEventListener("adobe_dc_view_sdk.ready", function () {
         /* Pass meta data of file */
         metaData: {
             /* file name */
-            fileName: "Bildungsfabrik.pdf"
+            fileName: "BQ Bildungsfabrik (1).pdf"
         }
     }, viewerConfig);
 });
