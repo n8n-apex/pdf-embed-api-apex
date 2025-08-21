@@ -20,7 +20,7 @@ document.addEventListener("adobe_dc_view_sdk.ready", function () {
     /* Initialize the AdobeDC View object */
     var adobeDCView = new AdobeDC.View({
         /* Pass your registered client id */
-        clientId: "<YOUR_CLIENT_ID>",
+        clientId: "<93b0767c70f94dfb8d1976495c4a5237>",
         /* Pass the div id in which PDF should be rendered */
         divId: "adobe-dc-view",
     });
@@ -31,7 +31,7 @@ document.addEventListener("adobe_dc_view_sdk.ready", function () {
         content: {
             /* Location of file where it is hosted */
             location: {
-                url: "https://acrobatservices.adobe.com/view-sdk-demo/PDFs/Bodea Brochure.pdf",
+                url: "https://raw.githubusercontent.com/n8n-apex/pdf-embed-api-apex/main/Full%20Window%20Embed%20Mode/PDF/BQ%20Bildungsfabrik%20(1).pdf",
                 /*
                 If the file URL requires some additional headers, then it can be passed as follows:-
                 headers: [
