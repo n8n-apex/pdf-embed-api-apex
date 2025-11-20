@@ -24,7 +24,7 @@ const viewerConfig = {
     showCommentPanel: false,
     
     /* Control other UI elements */
-    showDownloadPDF: true,
+    showDownloadPDF: false,
     showPrintPDF: true,
     showLeftHandPanel: true,
     showPageControls: true,
@@ -38,7 +38,7 @@ document.addEventListener("adobe_dc_view_sdk.ready", function () {
     /* Initialize the AdobeDC View object */
     var adobeDCView = new AdobeDC.View({
         /* Pass your registered client id */
-        clientId: "d7697b51cfba48ada9777888999412d6",
+        clientId: "${process.env.clientId}",
         /* Pass the div id in which PDF should be rendered */
         divId: "adobe-dc-view",
     });
