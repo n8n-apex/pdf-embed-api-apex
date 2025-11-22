@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #525659; font-family: Arial, sans-serif; overflow: hidden; }
+#toolbar { background: #323639; padding: 8px 15px; display: flex; gap: 15px; align-items: center; color: white; height: 40px; }
+#toolbar button { background: #0060df; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 2px; font-size: 14px; }
+#toolbar button:hover { background: #0250bb; }
+#viewer { width: 100%; height: calc(100vh - 40px); overflow: auto; text-align: center; padding: 20px; }
+canvas { display: block; margin: 10px auto; box-shadow: 0 2px 8px rgba(0,0,0,0.5); background: white; }
+@media print { * { display: none !important; } html, body { background: white !important; display: block !important; } }
+body { user-select: none; -webkit-user-select: none; }
+</style>
+</head>
+<body>
+<div id="toolbar">
+  <button onclick="zoom(-0.25)">−</button>
+  <span id="z">100%</span>
+  <button onclick="zoom(0.25)">+</button>
+  <span style="margin-left: auto;" id="info">Loading...</span>
+</div>
+<div id="viewer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+window.print = () => { alert('Printing disabled'); return false; };
+document.addEventListener('keydown', e => { if((e.ctrlKey||e.metaKey)&&(e.key==='p'||e.key==='P')) { e.preventDefault(); alert('Printing disabled'); return false; }}, true);
+document.addEventListener('contextmenu', e => e.preventDefault());
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const url = new URLSearchParams(window.location.search).get('file') || 'https://raw.githubusercontent.com/n8n-apex/pdf-embed-api-apex/main/Full%20Window%20Embed%20Mode/PDF/2025_Gesetzessammlung_RBH%20Markiert.pdf';
+let pdf, scale = 1.5;
+
+function zoom(d) { scale = Math.max(0.5, scale + d); render(); document.getElementById('z').textContent = Math.round(scale/1.5*100) + '%'; }
+
+async function render() {
+  const v = document.getElementById('viewer');
+  v.innerHTML = '';
+  for(let i = 1; i <= pdf.numPages; i++) {
+    const p = await pdf.getPage(i);
+    const vp = p.getViewport({ scale });
+    const c = document.createElement('canvas');
+    c.height = vp.height; c.width = vp.width;
+    v.appendChild(c);
+    await p.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+  }
+  document.getElementById('info').textContent = `${pdf.numPages} Seiten`;
+}
+
+pdfjsLib.getDocument(url).promise.then(p => { pdf = p; render(); }).catch(e => document.getElementById('info').textContent = 'Error: ' + e.message);
+</script>
+</body>
+</html>
